@@ -18,11 +18,11 @@ public:
 	~Angle();
 
 	Angle operator+(const Angle& other);
-	Angle& operator-(const Angle& other);
-	Angle& operator/(const Angle& other);
-	Angle& operator*(const Angle& other);
-	Angle& operator/(const int other);
-	Angle& operator*(const int other);
+	Angle operator-(const Angle& other);
+	Angle operator/(const Angle& other);
+	Angle operator*(const Angle& other);
+	Angle operator/(const int other);
+	Angle operator*(const int other);
 
 	bool operator==(const Angle& other);
 	bool operator!=(const Angle& other);

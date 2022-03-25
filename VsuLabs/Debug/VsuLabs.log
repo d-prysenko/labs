@@ -1,7 +1,4 @@
 ﻿  Angle.cpp
-D:\repos\VsuLabs\VsuLabs\Angle.cpp(55): warning C4172: возвращение адреса локальной или временной переменной : res
-D:\repos\VsuLabs\VsuLabs\Angle.cpp(39): warning C4172: возвращение адреса локальной или временной переменной : res
-D:\repos\VsuLabs\VsuLabs\Angle.cpp(47): warning C4172: возвращение адреса локальной или временной переменной : res
-D:\repos\VsuLabs\VsuLabs\Angle.cpp(71): warning C4172: возвращение адреса локальной или временной переменной : res
-D:\repos\VsuLabs\VsuLabs\Angle.cpp(63): warning C4172: возвращение адреса локальной или временной переменной : res
+  main.cpp
+  Создание кода...
   VsuLabs.vcxproj -> D:\repos\VsuLabs\Debug\VsuLabs.exe

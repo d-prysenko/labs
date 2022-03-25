@@ -31,7 +31,7 @@ Angle Angle::operator+(const Angle& other)
 	return res;
 }
 
-Angle& Angle::operator-(const Angle& other)
+Angle Angle::operator-(const Angle& other)
 {
 	int minutes = this->to_minutes() + other.to_minutes();
 
@@ -39,7 +39,7 @@ Angle& Angle::operator-(const Angle& other)
 	return res;
 }
 
-Angle& Angle::operator/(const Angle& other)
+Angle Angle::operator/(const Angle& other)
 {
 	int minutes = this->to_minutes() / other.to_minutes();
 
@@ -47,7 +47,7 @@ Angle& Angle::operator/(const Angle& other)
 	return res;
 }
 
-Angle& Angle::operator*(const Angle& other)
+Angle Angle::operator*(const Angle& other)
 {
 	int minutes = this->to_minutes() * other.to_minutes();
 
@@ -55,7 +55,7 @@ Angle& Angle::operator*(const Angle& other)
 	return res;
 }
 
-Angle& Angle::operator/(const int other)
+Angle Angle::operator/(const int other)
 {
 	int minutes = this->to_minutes() / other;
 
@@ -63,7 +63,7 @@ Angle& Angle::operator/(const int other)
 	return res;
 }
 
-Angle& Angle::operator*(const int other)
+Angle Angle::operator*(const int other)
 {
 	int minutes = this->to_minutes() * other;
 
