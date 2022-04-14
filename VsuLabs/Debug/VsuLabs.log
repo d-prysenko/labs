@@ -1,5 +1,2 @@
-﻿  Hash.cpp
-D:\repos\VsuLabs\VsuLabs\Hash.cpp(20,19): warning C4018: <: несоответствие типов со знаком и без знака
-  main.cpp
-  Создание кода...
+﻿  main.cpp
   VsuLabs.vcxproj -> D:\repos\VsuLabs\Debug\VsuLabs.exe

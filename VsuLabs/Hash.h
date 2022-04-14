@@ -4,39 +4,50 @@
 #include <string>
 #include <sstream>
 #include <fstream>
+
 using namespace std;
 
-typedef string type;
+typedef string CarNumber;
 
-enum Status {
+enum CellState {
     empty = 0,
     used = 1,
     deleted = -1,
 };
+
 enum Condition {
     park = 0,
     route = 1,
 };
-struct cell {
-    type data;
-    Status status;
+
+struct RouteDetail {
+    CarNumber car_number;
     string company;
-    string fullnamedriver;
-    int routenumber;
+    string driver_fullname;
+    int route_number;
     Condition condition;
 };
 
-class HashTable {
-    vector<cell>table;
-    int size;
-public:
-    HashTable(int SIZE);
-    int HashFunc(type elem);
-    int Probing(int func, int& i);
-    void AddElem(cell elem);
-    bool FindElem(type elem);
-    void DeleteElem(type elem);
-    void print();
-    bool get_cell(ifstream& input, cell& a);
+struct Cell {
+    CellState state;
+    RouteDetail data;
 
+    bool is_empty() { return state == CellState::empty; }
+    bool is_used() { return state == CellState::used; }
+};
+
+class HashTable {
+private:
+    vector<Cell> table;
+    int size;
+
+    int HashFunc(CarNumber elem);
+    int Probing(int func, int i);
+
+public:
+    HashTable(int size = 100);
+    void AddElem(Cell elem);
+    bool FindElem(CarNumber elem);
+    void DeleteElem(CarNumber elem);
+    void print();
 };

@@ -5,6 +5,8 @@
 
 using namespace std;
 
+bool get_cell(ifstream& input, Cell& a);
+
 int main()
 {
     SetConsoleOutputCP(1251);
@@ -13,15 +15,15 @@ int main()
     ifstream input("hash.txt");
     setlocale(LC_ALL, "Russian");
     int work;
-    cout << "0-Ñ÷èòàòü èç ôàéëà" << endl <<
-        "1 -Óäàëèòü ıëåìåíò " << endl <<
-        "2 -Íàéòè ıëåìåíò" << endl <<
-        "3 -Âûâåñòè äàííûå " << endl <<
-        "4- Äîáàâèòü ıëåìåíò" << endl;
+    cout << "0-Ğ¡Ñ‡Ğ¸Ñ‚Ğ°Ñ‚ÑŒ Ğ¸Ğ· Ñ„Ğ°Ğ¹Ğ»Ğ°" << endl <<
+        "1 -Ğ£Ğ´Ğ°Ğ»Ğ¸Ñ‚ÑŒ ÑĞ»ĞµĞ¼ĞµĞ½Ñ‚ " << endl <<
+        "2 -ĞĞ°Ğ¹Ñ‚Ğ¸ ÑĞ»ĞµĞ¼ĞµĞ½Ñ‚" << endl <<
+        "3 -Ğ’Ñ‹Ğ²ĞµÑÑ‚Ğ¸ Ğ´Ğ°Ğ½Ğ½Ñ‹Ğµ " << endl <<
+        "4- Ğ”Ğ¾Ğ±Ğ°Ğ²Ğ¸Ñ‚ÑŒ ÑĞ»ĞµĞ¼ĞµĞ½Ñ‚" << endl;
 
 
     cin >> work;
-    HashTable* h = new HashTable(1);
+    HashTable* h = new HashTable(50);
 
     while (work != -1)
     {
@@ -29,10 +31,10 @@ int main()
         {
         case 0:
         {
-            cell elem;
+            Cell elem;
             while (!input.eof()) {
 
-                if (h->get_cell(input, elem)) {
+                if (get_cell(input, elem)) {
                     h->AddElem(elem);
                 }
             }
@@ -54,9 +56,35 @@ int main()
             break;
         }
         }
-
-
-        system("pause");
-        return 0;
     }
+
+    system("pause");
+    return 0;
+}
+
+bool get_cell(ifstream& input, Cell& a) {
+    if (input.eof())
+        return false;
+
+    string line;
+
+    getline(input, line, '\t');
+    a.data.car_number = line;
+
+    getline(input, line, '\t');
+    a.data.company = line;
+
+    getline(input, line, '\t');
+    a.data.driver_fullname = line;
+
+    getline(input, line, '\t');
+    a.data.route_number = stoi(line);
+
+    getline(input, line, '\n');
+    if (line == "Ğ² Ğ¿Ğ°Ñ€ĞºĞµ")
+        a.data.condition = park;
+    else
+        a.data.condition = route;
+
+    return true;
 }
