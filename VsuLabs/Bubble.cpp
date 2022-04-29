@@ -17,5 +17,10 @@ void Bubble::sort()
 void Bubble::foreach()
 {
     for (int i = 0; i < m_size; i++)
-        m_data[i] = sqrt(m_data[i]);
+    {
+        if (m_data[i] < 0)
+            m_data[i] = NAN;
+        else
+            m_data[i] = sqrt(m_data[i]);
+    }
 }
