@@ -1,5 +1,6 @@
 #pragma once
 #include "LongLong.h"
+#include <string>
 
 class Fraction
 {
@@ -7,6 +8,7 @@ private:
 	com::LongLong round;
 	double fraction;
 
+	const static double delta;
 public:
 
 	Fraction();
@@ -25,4 +27,6 @@ public:
 	bool operator<=(const Fraction& other);
 	bool operator>(const Fraction& other);
 	bool operator>=(const Fraction& other);
+
+	double toDouble();
 };

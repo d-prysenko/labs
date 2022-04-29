@@ -1,32 +1,60 @@
 #include <iostream>
-#include "Angle.h"
-#include <io.h>
-#include <fcntl.h>
+#include <conio.h>
+#include "Calculator.h"
+
+bool validate_action(int action)
+{
+	return action == '+' || action == '-' || action == '*' || action == '/';
+}
 
 int main()
 {
-	_setmode(_fileno(stdout), _O_U16TEXT);
+	setlocale(LC_ALL, "ru");
 
-	Angle a1(5, 30);
-	Angle a2(6, 30);
+	int action;
+	Calculator calc;
+	// 20 p. 63
+	// 79 p. 67
+	do
+	{
+		printf("Выберите действие (+-*/) или введите 0 для выхода: ");
 
-	if (a2 > a1) {
-		std::wcout << a2 << " greater than " << a1 << std::endl;
-	} else {
-		std::wcout << a1 << " greater than " << a2 << std::endl;
-	}
+		do {
+			action = getchar();
+		} while (action == '\n');
 
-	Angle a3 = a1 + a2;
+		if (!validate_action(action))
+		{
+			std::cerr << "Какое-то странное действие.. Попробуйте еще раз." << std::endl;
+			continue;
+		}
 
-	std::wcout << a1 << " + " << a2 << " = " << a3 << std::endl;
+		double num1, num2;
+		printf("Первое число >> ");
+		std::cin >> num1;
+		printf("Второе число >> ");
+		std::cin >> num2;
 
-	Angle a4;
+		Fraction res;
+		switch (action)
+		{
+		case '+':
+			res = calc.sum(Fraction(num1), Fraction(num2));
+			break;
+		case '-':
+			res = calc.diff(Fraction(num1), Fraction(num2));
+			break;
+		case '*':
+			res = calc.mult(Fraction(num1), Fraction(num2));
+			break;
+		case '/':
+			res = calc.div(Fraction(num1), Fraction(num2));
+			break;
+		}
 
-	std::wcout << "Enter the angle(degrees and minutes): ";
-	std::wcin >> a4;
+		printf("%f %c %f = %f\n", num1, action, num2, res.toDouble());
 
-	std::wcout << "You entered " << a4 << std::endl;
+	} while (action != '0');
 
-	system("pause");
 	return 0;
 }

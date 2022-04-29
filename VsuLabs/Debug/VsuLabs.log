@@ -1,4 +1,7 @@
-﻿  Angle.cpp
-  main.cpp
-  Создание кода...
+﻿  Fraction.cpp
+D:\repos\VsuLabs\VsuLabs\Fraction.cpp(10,10): warning C4244: аргумент: преобразование "double" в "long", возможна потеря данных
+D:\repos\VsuLabs\VsuLabs\Fraction.cpp(47,82): warning C4244: аргумент: преобразование "const double" в "long", возможна потеря данных
+D:\repos\VsuLabs\VsuLabs\Fraction.cpp(48,83): warning C4244: аргумент: преобразование "const double" в "long", возможна потеря данных
+D:\repos\VsuLabs\VsuLabs\Fraction.cpp(61,93): warning C4244: аргумент: преобразование "double" в "long", возможна потеря данных
+D:\repos\VsuLabs\VsuLabs\Fraction.cpp(62,93): warning C4244: аргумент: преобразование "double" в "long", возможна потеря данных
   VsuLabs.vcxproj -> D:\repos\VsuLabs\Debug\VsuLabs.exe

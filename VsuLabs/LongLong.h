@@ -44,7 +44,7 @@ namespace com
 		//LongLong(const uint8_t* bytes, uint16_t size);
 		//LongLong(unsigned long long num);
 		std::string toString() const;
-		std::string toSignString();
+		std::string toSignString() const;
 
 		static void print_bits(const void* buffer, int size);
 
@@ -56,14 +56,18 @@ namespace com
 		LongLong operator*(const LongLong& right) const;
 		LongLong operator/(const LongLong& right) const;
 		
+		bool operator<(const LongLong& other) const;
 		bool operator>(const LongLong& other) const;
 		bool operator==(const LongLong& other) const;
 		bool operator>=(const LongLong& other) const;
+		bool operator<=(const LongLong& other) const;
 
 		LongLong& operator-();
 
 		//LongLong operator/(const LongLong& r);
 		LongLong operator%(const LongLong& r);
+
+		long long toLL() const;
 
 
 		bool overflow = false;

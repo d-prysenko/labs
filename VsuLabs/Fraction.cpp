@@ -1,5 +1,7 @@
 #include "Fraction.h"
 
+const double Fraction::delta = 0.0001;
+
 Fraction::Fraction()
 	: round(0), fraction(0)
 {}
@@ -40,46 +42,64 @@ Fraction Fraction::operator-(const Fraction& other) const
 
 Fraction Fraction::operator/(const Fraction& other) const
 {
-	com::LongLong l = com::LongLong(this->round * 10000000) + com::LongLong(this->fraction * 10000000);
-	com::LongLong r = com::LongLong(other.round * 10000000) + com::LongLong(other.fraction * 10000000);
+	com::LongLong precision(10000);
+
+	com::LongLong l = (com::LongLong(this->round) * precision) + (com::LongLong(this->fraction) * precision);
+	com::LongLong r = (com::LongLong(other.round) * precision) + (com::LongLong(other.fraction) * precision);
 
 	com::LongLong number(l / r);
 
-	Fraction res(number / 10000000, (number - (number / 10000000)));
-	return res;
+	double remind = (double)(l - (number * r)).toLL() / r.toLL();
+
+	return Fraction(number, remind);
 }
 
 Fraction Fraction::operator*(const Fraction& other) const
 {
-	return Fraction();
+	com::LongLong precision(10000);
+
+	com::LongLong l = (com::LongLong(this->round) * precision) + (com::LongLong(this->fraction * 10000));
+	com::LongLong r = (com::LongLong(other.round) * precision) + (com::LongLong(other.fraction * 10000));
+
+	com::LongLong number = l * r;
+
+	com::LongLong round = number / (precision * precision);
+	double remind = (double)(number - (round * (precision * precision))).toLL() / (precision * precision).toLL();
+
+	return Fraction(round, remind);
 }
 
 bool Fraction::operator==(const Fraction& other)
 {
-	return false;
+	return this->round == other.round && abs(this->fraction - other.fraction) <= Fraction::delta;
 }
 
 bool Fraction::operator!=(const Fraction& other)
 {
-	return false;
+	return !this->operator==(other);
 }
 
 bool Fraction::operator<(const Fraction& other)
 {
-	return false;
+	return this->round < other.round && this->fraction < other.fraction;
 }
 
 bool Fraction::operator<=(const Fraction& other)
 {
-	return false;
+	return this->round <= other.round && (this->fraction <= other.fraction || abs(this->fraction - other.fraction) <= Fraction::delta);
 }
 
 bool Fraction::operator>(const Fraction& other)
 {
-	return false;
+	return this->round > other.round && this->fraction > other.fraction;
 }
 
 bool Fraction::operator>=(const Fraction& other)
 {
-	return false;
+	return this->round >= other.round && (this->fraction >= other.fraction || abs(this->fraction - other.fraction) <= Fraction::delta);
+}
+
+double Fraction::toDouble()
+{
+	return this->round.toLL() + this->fraction;
 }

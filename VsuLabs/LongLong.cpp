@@ -79,7 +79,7 @@ namespace com
 		return ss.str();
 	}
 
-	std::string LongLong::toSignString()
+	std::string LongLong::toSignString() const
 	{
 		std::stringstream ss;
 
@@ -193,6 +193,8 @@ namespace com
 			//}
 		}
 
+		return com::LongLong(this->toLL() * right.toLL());
+
 		// случай переполнения, когда число меняет знак
 		// 01000000 00000000 00000000 00000000
 		// *
@@ -209,20 +211,27 @@ namespace com
 
 	LongLong LongLong::operator/(const LongLong& divisor) const
 	{
-		LongLong res;
+		//LongLong res;
 
-		if (divisor > *this)
-		{
-			return res;
-		}
+		//if (divisor > *this)
+		//{
+		//	return res;
+		//}
 
-		while (*this >= res * divisor)
-			res = res + com::LongLong(500);
+		//while (*this > res * divisor)
+		//	res = res + com::LongLong(1);
 
-		while (res * divisor > *this)
-			res = res - com::LongLong(1);
+		//while (res * divisor > *this)
+		//	res = res - com::LongLong(1);
 
-		return res;
+		//return res;
+		return this->toLL() / divisor.toLL();
+
+	}
+
+	bool LongLong::operator<(const LongLong& other) const
+	{
+		return !this->operator>=(other);
 	}
 
 	bool LongLong::operator>(const LongLong& other) const
@@ -251,6 +260,11 @@ namespace com
 		return this->operator>(other) || this->operator==(other);
 	}
 
+	bool LongLong::operator<=(const LongLong& other) const
+	{
+		return this->operator<(other) || this->operator==(other);
+	}
+
 	LongLong& LongLong::operator-()
 	{
 		if (minor == 0)
@@ -270,6 +284,11 @@ namespace com
 	LongLong LongLong::operator%(const LongLong& r)
 	{
 		return LongLong();
+	}
+
+	long long LongLong::toLL() const
+	{
+		return std::stoll(this->toSignString(), nullptr, 16);
 	}
 
 }
