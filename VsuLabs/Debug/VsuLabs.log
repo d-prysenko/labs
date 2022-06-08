@@ -1,0 +1,11 @@
+﻿  main.cpp
+D:\repos\VsuLabs\VsuLabs\main.cpp(18,14): warning C4244: return: преобразование "double" в "float", возможна потеря данных
+D:\repos\VsuLabs\VsuLabs\main.cpp(63,39): warning C4244: return: преобразование "int" в "float", возможна потеря данных
+D:\repos\VsuLabs\VsuLabs\main.cpp(218,20): warning C4018: <: несоответствие типов со знаком и без знака
+D:\repos\VsuLabs\VsuLabs\main.cpp(221,25): warning C4018: <: несоответствие типов со знаком и без знака
+D:\repos\VsuLabs\VsuLabs\main.cpp(230,23): warning C4018: <: несоответствие типов со знаком и без знака
+D:\repos\VsuLabs\VsuLabs\main.cpp(248,20): warning C4018: <: несоответствие типов со знаком и без знака
+D:\repos\VsuLabs\VsuLabs\main.cpp(251,21): warning C4018: <: несоответствие типов со знаком и без знака
+D:\repos\VsuLabs\VsuLabs\main.cpp(261,20): warning C4018: <: несоответствие типов со знаком и без знака
+D:\repos\VsuLabs\VsuLabs\main.cpp(264,21): warning C4018: <: несоответствие типов со знаком и без знака
+  VsuLabs.vcxproj -> D:\repos\VsuLabs\Debug\VsuLabs.exe
