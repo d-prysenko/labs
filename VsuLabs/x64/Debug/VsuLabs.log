@@ -1,0 +1,8 @@
+﻿  main.cpp
+D:\repos\VsuLabs\VsuLabs\Graph.hpp(62,1): warning C4267: return: преобразование из "size_t" в "int"; возможна потеря данных
+D:\repos\VsuLabs\VsuLabs\Graph.hpp(61): message : во время компиляции функции-члена класс шаблон "int Graph<int,int>::get_order(void)"
+D:\repos\VsuLabs\VsuLabs\Graph.hpp(108): message : выполняется компиляция ссылки на экземпляр шаблон функции "int Graph<int,int>::get_order(void)"
+D:\repos\VsuLabs\VsuLabs\Graph.hpp(47): message : во время компиляции функции-члена класс шаблон "Graph<int,int>::Graph(void)"
+D:\repos\VsuLabs\VsuLabs\main.cpp(81): message : выполняется компиляция ссылки на экземпляр шаблон функции "Graph<int,int>::Graph(void)"
+D:\repos\VsuLabs\VsuLabs\main.cpp(81): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "Graph<int,int>"
+  VsuLabs.vcxproj -> D:\repos\VsuLabs\x64\Debug\VsuLabs.exe
