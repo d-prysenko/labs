@@ -6,7 +6,7 @@
 
 void print_description()
 {
-	printf("4. В trie–дереве распечатать слово (или слова), содержащее наибольшее количество различных букв.\n\n");
+	printf("4. Р’ trieвЂ“РґРµСЂРµРІРµ СЂР°СЃРїРµС‡Р°С‚Р°С‚СЊ СЃР»РѕРІРѕ (РёР»Рё СЃР»РѕРІР°), СЃРѕРґРµСЂР¶Р°С‰РµРµ РЅР°РёР±РѕР»СЊС€РµРµ РєРѕР»РёС‡РµСЃС‚РІРѕ СЂР°Р·Р»РёС‡РЅС‹С… Р±СѓРєРІ.\n\n");
 }
 
 int main()
@@ -36,11 +36,12 @@ int main()
 	for (const auto& it : characters_count)
 		max = std::max(max, it.second);
 
-	printf("Максимальное количество различных букв:\n");
+	printf("РњР°РєСЃРёРјР°Р»СЊРЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ СЂР°Р·Р»РёС‡РЅС‹С… Р±СѓРєРІ:\n");
 	for (const auto& it : characters_count)
 		if (it.second == max)
 			printf("%s - %d\n", it.first.c_str(), it.second);
 
 	system("pause");
+
 	return 0;
 }
