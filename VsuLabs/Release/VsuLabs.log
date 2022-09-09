@@ -1,0 +1,8 @@
+﻿  main.cpp
+D:\repos\VsuLabs\VsuLabs\main.cpp(28,20): warning C4018: <: несоответствие типов со знаком и без знака
+  Создание кода
+  Previous IPDB not found, fall back to full compilation.
+D:\repos\VsuLabs\VsuLabs\main.cpp(40): warning C4715: get_transposition: значение возвращается не при всех путях выполнения
+  All 146 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Создание кода завершено
+  VsuLabs.vcxproj -> D:\repos\VsuLabs\Release\VsuLabs.exe

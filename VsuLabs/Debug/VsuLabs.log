@@ -1,0 +1,4 @@
+﻿  main.cpp
+D:\repos\VsuLabs\VsuLabs\main.cpp(28,20): warning C4018: <: несоответствие типов со знаком и без знака
+D:\repos\VsuLabs\VsuLabs\main.cpp(40): warning C4715: get_transposition: значение возвращается не при всех путях выполнения
+  VsuLabs.vcxproj -> D:\repos\VsuLabs\Debug\VsuLabs.exe
