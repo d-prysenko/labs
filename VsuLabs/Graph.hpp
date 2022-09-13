@@ -55,7 +55,7 @@ Graph<T, _Ty>::Graph()
 	}
 }
 
-// Возвращает порядок
+// Р’РѕР·РІСЂР°С‰Р°РµС‚ РїРѕСЂСЏРґРѕРє
 template<class T, class _Ty>
 int Graph<T, _Ty>::get_order()
 {
@@ -97,14 +97,14 @@ template<class T, class _Ty>
 void Graph<T, _Ty>::print_debug()
 {
 
-	//printf("Вершины графа:\n");
+	//printf("Р’РµСЂС€РёРЅС‹ РіСЂР°С„Р°:\n");
 	//for (auto& v : _vertices)
 	//{
 	//	printf("%d %d\n", v.first.x, v.first.y);
 	//}
 	//printf("\n");
 
-	printf("Матрица смежности:\n");
+	printf("РњР°С‚СЂРёС†Р° СЃРјРµР¶РЅРѕСЃС‚Рё:\n");
 	for (int i = 0; i < get_order(); i++)
 	{
 		for (int j = 0; j < get_order(); j++)
