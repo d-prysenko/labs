@@ -27,8 +27,8 @@ int main()
 	table.AddElem(c1);
 	table.AddElem(c2);
 
-	printf("Человек с номером #123 есть? %s\n", table.FindElem("#123") ? "да" : "нет");
-	printf("Человек с номером #122 есть? %s\n", table.FindElem("#122") ? "да" : "нет");
+	printf("Р§РµР»РѕРІРµРє СЃ РЅРѕРјРµСЂРѕРј #123 РµСЃС‚СЊ? %s\n", table.FindElem("#123") ? "РґР°" : "РЅРµС‚");
+	printf("Р§РµР»РѕРІРµРє СЃ РЅРѕРјРµСЂРѕРј #122 РµСЃС‚СЊ? %s\n", table.FindElem("#122") ? "РґР°" : "РЅРµС‚");
 
 	system("pause");
 	return 0;
