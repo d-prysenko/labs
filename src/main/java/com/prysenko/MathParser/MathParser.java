@@ -5,12 +5,14 @@ import java.util.Map;
 
 import com.prysenko.MathParser.Exception.ParserEvalException;
 import com.prysenko.MathParser.Exception.ParserValidationException;
+import com.prysenko.MathParser.Validators.ExpressionValidator;
 
 public abstract class MathParser {
     protected ExpressionValidator validator;
     protected Map<String, Integer> symbolTable;
 
     public MathParser(ExpressionValidator validator) {
+        // you must pass different validators for infix and prefix expressions
         this.validator = validator;
         this.symbolTable = new HashMap<>();
     }
@@ -20,7 +22,13 @@ public abstract class MathParser {
         validator.validate(expression);
     }
 
-    public abstract void parse(String expression) throws ParserValidationException;
+    public void parse(String expression) throws ParserValidationException, ParserEvalException {
+        validate(expression);
+
+        _parse(expression);
+    }
+
+    protected abstract void _parse(String expression) throws ParserValidationException, ParserEvalException;
     public abstract void eval() throws ParserEvalException;
     public abstract void eval(String expression) throws ParserValidationException;
 }

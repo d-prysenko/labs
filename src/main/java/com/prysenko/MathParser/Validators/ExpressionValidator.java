@@ -1,4 +1,4 @@
-package com.prysenko.MathParser;
+package com.prysenko.MathParser.Validators;
 
 import com.prysenko.MathParser.Exception.ParserValidationException;
 

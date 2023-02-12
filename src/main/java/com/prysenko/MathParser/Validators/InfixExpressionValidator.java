@@ -1,13 +1,12 @@
-package com.prysenko.MathParser.Parsers.Infix;
+package com.prysenko.MathParser.Validators;
 
 import java.util.Stack;
 
 import com.prysenko.MathParser.Exception.ParserValidationException;
-import com.prysenko.MathParser.ExpressionValidator;
 import com.prysenko.MathParser.Misc.RegexManager;
 
 public class InfixExpressionValidator implements ExpressionValidator {
-    protected final String notAllowedSymbolsPattern = "[^a-zA-Z0-9-+*/%^()\\[\\]\\s]|[*/+-][/*+]|--|\\+-";
+    protected final String notAllowedSymbolsPattern = "[^a-zA-Z0-9-+*/%^(),\\[\\]\\s]|[*/+-][/*+]|--|\\+-";
     protected final String spacesWithinTokensPattern = "\\w+(\\s+\\w+)+";
 
     @Override

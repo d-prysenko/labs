@@ -1,7 +1,6 @@
-package com.prysenko.MathParser.Parsers.Prefix;
+package com.prysenko.MathParser.Validators;
 
 import com.prysenko.MathParser.Exception.ParserValidationException;
-import com.prysenko.MathParser.ExpressionValidator;
 
 public class PrefixExpressionValidator implements ExpressionValidator {
     @Override
