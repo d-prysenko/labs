@@ -1,5 +1,9 @@
 package com.prysenko.MathParser.Misc;
 
+/**
+ * Used in places where we are iterating through string with expression
+ * and looking for a signs with the lowest priority outside of parentheses
+ */
 public class NestingLevelHelper {
     private int bracketsNestingLevel = 0;
 

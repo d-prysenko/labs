@@ -1,10 +1,14 @@
 package com.prysenko.MathParser.Parsers.Infix.Nodes.Function;
 
-import java.util.List;
-
+import com.prysenko.MathParser.Exception.ParserEvalException;
 import com.prysenko.MathParser.Parsers.Infix.Nodes.AbstractNode;
 
+import java.util.List;
+
 public class SinFunctionNode extends FunctionNode {
+    public SinFunctionNode() {
+        super();
+    }
 
     public SinFunctionNode(List<AbstractNode> args) {
         super(args);
@@ -15,15 +19,12 @@ public class SinFunctionNode extends FunctionNode {
         return "sin";
     }
 
-    @Override
     public int getArgsCount() {
         return 1;
     }
 
     @Override
-    public int eval() {
-        // assert that args is not empty
-
-        return (int) Math.sin(args.get(0).eval());
+    protected double _eval() throws ParserEvalException {
+        return Math.sin(args.get(0).eval());
     }
 }

@@ -1,12 +1,8 @@
 package com.prysenko.MathParser.Parsers.Infix;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Predicate;
-
 import com.prysenko.MathParser.Exception.ParserEvalException;
-import com.prysenko.MathParser.Exception.ParserValidationException;
+import com.prysenko.MathParser.Exception.ParserException;
 import com.prysenko.MathParser.MathParser;
 import com.prysenko.MathParser.Misc.NestingLevelHelper;
 import com.prysenko.MathParser.Misc.RegexManager;
@@ -15,9 +11,14 @@ import com.prysenko.MathParser.Parsers.Infix.Nodes.AbstractNode;
 import com.prysenko.MathParser.Parsers.Infix.Nodes.Function.FunctionFabric;
 import com.prysenko.MathParser.Parsers.Infix.Nodes.Function.FunctionNode;
 import com.prysenko.MathParser.Parsers.Infix.Nodes.SignNode;
+import com.prysenko.MathParser.Parsers.Infix.Nodes.TokenNode;
 import com.prysenko.MathParser.Parsers.Infix.Nodes.ValueNode;
 import com.prysenko.MathParser.Validators.FunctionValidator;
 import com.prysenko.MathParser.Validators.InfixExpressionValidator;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
 
 public class InfixExpressionTreeParser extends MathParser {
     protected AbstractNode root;
@@ -30,58 +31,32 @@ public class InfixExpressionTreeParser extends MathParser {
     }
 
     @Override
-    protected void _parse(String expression) throws ParserValidationException, ParserEvalException {
-        root = _doParse(RegexManager.removeSpaces(expression));
-    }
-
-    @Override
-    public void eval() throws ParserEvalException {
+    public double eval() throws ParserEvalException {
         if (root == null) {
             throw new ParserEvalException("Root node is null");
         }
 
-        // есть 3 идеи:
-        // 1) в AbstractNode добавить метод eval.
-        //    в TokenNode добавить статический метод получения symbolTable.
-        //    таким образом в TokenNode через статику получать symbolTable и значение соответствующего токена.
-        //    с потенциальным FunctionNode сделать так же.
-        //    !!! тогда получается очень плохо и неправильно при создании двух экземпляров парсера !!!
-        // 2) предпринимать действия в соответствии с типами нод тут
-        //    возможно добавить какой-то NodeManager и сделать как в предыдущей версии
-        // 3) в AbstractNode добавить метод eval.
-        //    перед вычислением пройтись по дереву и проставить все значения для переменных
-        //    в FunctionNode добавить List<AbstractNode> parameters.
-        //    !!! если встречаем FunctionNode, тогда заменять переменные нужно не только в left,right но и в parameters
+        // TODO: check that symbolTable is filled and set all values in tree
 
+        return root.eval();
     }
 
     @Override
-    public void eval(String expression) throws ParserValidationException {
-
+    public double eval(String expression) throws ParserException {
+        parse(expression);
+        return eval();
     }
 
-    private AbstractNode _doParse(String expression) throws ParserEvalException {
-        // Если очередной токен это одно из зарезервированных имен функций, тогда ожидаем,
-        // что рядом с ним должны быть скобки
-        // делаем split по запятой и инфикс валидатором проверяем все части
-        // для каждой части запускаем _parse и кладем результат в спикок List<AbstractNode> parameters.
-        // когда все готово создаем ноду с помощью фабрики и токена в качестве названия названия
+    @Override
+    protected void _parse(String expression) throws ParserException {
+        root = _doParse(RegexManager.removeSpaces(expression));
+    }
 
+    private AbstractNode _doParse(String expression) throws ParserException {
         AbstractNode node;
         expression = SymbolsManager.trimBrackets(expression);
 
-        // 5+4*func(3 + 2)^3
-
-        //         +
-        //       5   2
-
-        //         +
-        //       +   2
-        //     5   *
-        //       4   3
-
         // binary +-
-
         node = _getNodeForSigns(expression, SymbolsManager::isPlusMinus);
 
         if (node != null) {
@@ -89,7 +64,6 @@ public class InfixExpressionTreeParser extends MathParser {
         }
 
         // */
-
         node = _getNodeForSigns(expression, SymbolsManager::isMultDiv);
 
         if (node != null) {
@@ -97,7 +71,6 @@ public class InfixExpressionTreeParser extends MathParser {
         }
 
         // %
-
         node = _getNodeForSigns(expression, SymbolsManager::isMod);
 
         if (node != null) {
@@ -105,7 +78,6 @@ public class InfixExpressionTreeParser extends MathParser {
         }
 
         // ^
-
         node = _getNodeForSigns(expression, SymbolsManager::isPow);
 
         if (node != null) {
@@ -113,14 +85,12 @@ public class InfixExpressionTreeParser extends MathParser {
         }
 
         // unary -
-
         if (expression.startsWith("-")) {
             return new SignNode('-', new ValueNode(0), _doParse(expression.substring(1)));
         }
 
         // function
         // is it a function?
-
         node = _getFunctionNode(expression);
 
         if (node != null) {
@@ -129,13 +99,19 @@ public class InfixExpressionTreeParser extends MathParser {
 
         // variable
         // starts with letter
+        if (Character.isLetter(expression.charAt(0))) {
+            if (!symbolTable.containsKey(expression)) {
+                symbolTable.put(expression, null);
+            }
 
-        // value /
+            return new TokenNode(expression);
+        }
 
-        return new ValueNode(Integer.parseInt(expression));
+        // value
+        return new ValueNode(Double.parseDouble(expression));
     }
 
-    private SignNode _getNodeForSigns(String expression, Predicate<Character> signPredicate) throws ParserEvalException {
+    private SignNode _getNodeForSigns(String expression, Predicate<Character> signPredicate) throws ParserException {
         NestingLevelHelper nestingHelper = new NestingLevelHelper();
 
         for (int i = 0; i < expression.length(); i++) {
@@ -156,7 +132,7 @@ public class InfixExpressionTreeParser extends MathParser {
         return null;
     }
 
-    private FunctionNode _getFunctionNode(String expression) throws ParserEvalException {
+    private FunctionNode _getFunctionNode(String expression) throws ParserException {
         int openingBracketPos = expression.indexOf("(");
 
         if (openingBracketPos == -1) {
@@ -170,11 +146,10 @@ public class InfixExpressionTreeParser extends MathParser {
             return null;
         }
 
-        return FunctionFabric.create(functionName, splitAndParseArgs(args));
+        return FunctionFabric.create(functionName, _splitAndParseArgs(args));
     }
 
-    private List<AbstractNode> splitAndParseArgs(String args) throws ParserEvalException {
-
+    private List<AbstractNode> _splitAndParseArgs(String args) throws ParserException {
         List<AbstractNode> res = new ArrayList<>();
 
         NestingLevelHelper nestingHelper = new NestingLevelHelper();

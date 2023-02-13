@@ -8,7 +8,7 @@ public class ValueNode extends AbstractNode {
     }
 
     @Override
-    public int eval() {
-        return (int)value;
+    public double eval() {
+        return value;
     }
 }

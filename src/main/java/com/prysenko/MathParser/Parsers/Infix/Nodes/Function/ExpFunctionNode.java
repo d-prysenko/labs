@@ -5,19 +5,18 @@ import com.prysenko.MathParser.Parsers.Infix.Nodes.AbstractNode;
 
 import java.util.List;
 
-public class AbsFunctionNode extends FunctionNode {
-
-    public AbsFunctionNode() {
+public class ExpFunctionNode extends FunctionNode {
+    public ExpFunctionNode() {
         super();
     }
 
-    public AbsFunctionNode(List<AbstractNode> args) {
+    public ExpFunctionNode(List<AbstractNode> args) {
         super(args);
     }
 
     @Override
     public String getName() {
-        return "abs";
+        return "exp";
     }
 
     @Override
@@ -27,6 +26,6 @@ public class AbsFunctionNode extends FunctionNode {
 
     @Override
     protected double _eval() throws ParserEvalException {
-        return Math.abs(args.get(0).eval());
+        return Math.exp(args.get(0).eval());
     }
 }

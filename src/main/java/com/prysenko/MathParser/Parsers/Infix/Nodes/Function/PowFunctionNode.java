@@ -5,28 +5,27 @@ import com.prysenko.MathParser.Parsers.Infix.Nodes.AbstractNode;
 
 import java.util.List;
 
-public class AbsFunctionNode extends FunctionNode {
-
-    public AbsFunctionNode() {
+public class PowFunctionNode extends FunctionNode {
+    public PowFunctionNode() {
         super();
     }
 
-    public AbsFunctionNode(List<AbstractNode> args) {
+    public PowFunctionNode(List<AbstractNode> args) {
         super(args);
     }
 
     @Override
     public String getName() {
-        return "abs";
+        return "pow";
     }
 
     @Override
     public int getArgsCount() {
-        return 1;
+        return 2;
     }
 
     @Override
     protected double _eval() throws ParserEvalException {
-        return Math.abs(args.get(0).eval());
+        return Math.pow(args.get(0).eval(), args.get(1).eval());
     }
 }

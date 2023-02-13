@@ -1,6 +1,6 @@
 package com.prysenko.MathParser.Exception;
 
-public class ParserValidationException extends Exception {
+public class ParserValidationException extends ParserException {
     public ParserValidationException() {
         super();
     }

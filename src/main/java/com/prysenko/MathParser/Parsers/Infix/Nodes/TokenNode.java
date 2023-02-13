@@ -1,11 +1,15 @@
 package com.prysenko.MathParser.Parsers.Infix.Nodes;
 
 public class TokenNode extends AbstractNode {
-    private String token;
-    private int value;
+    private final String name;
+    private double value;
+
+    public TokenNode(String name) {
+        this.name = name;
+    }
 
     @Override
-    public int eval() {
+    public double eval() {
         return value;
     }
 }

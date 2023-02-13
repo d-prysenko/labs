@@ -26,12 +26,12 @@ public class PrefixExpressionParser extends MathParser {
     }
 
     @Override
-    public void eval() throws ParserEvalException {
-
+    public double eval() throws ParserEvalException {
+        return 0;
     }
 
     @Override
-    public void eval(String expression) throws ParserValidationException {
-
+    public double eval(String expression) throws ParserValidationException {
+        return 0;
     }
 }

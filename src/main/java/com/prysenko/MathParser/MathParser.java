@@ -1,18 +1,19 @@
 package com.prysenko.MathParser;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.prysenko.MathParser.Exception.ParserEvalException;
+import com.prysenko.MathParser.Exception.ParserException;
 import com.prysenko.MathParser.Exception.ParserValidationException;
 import com.prysenko.MathParser.Validators.ExpressionValidator;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class MathParser {
     protected ExpressionValidator validator;
     protected Map<String, Integer> symbolTable;
 
     public MathParser(ExpressionValidator validator) {
-        // you must pass different validators for infix and prefix expressions
+        // you must pass different validators for infix, prefix (and etc.) expressions
         this.validator = validator;
         this.symbolTable = new HashMap<>();
     }
@@ -22,17 +23,13 @@ public abstract class MathParser {
         validator.validate(expression);
     }
 
-    public void parse(String expression) throws ParserValidationException, ParserEvalException {
+    public void parse(String expression) throws ParserException {
         validate(expression);
 
         _parse(expression);
     }
 
-    protected abstract void _parse(String expression) throws ParserValidationException, ParserEvalException;
-    public abstract void eval() throws ParserEvalException;
-    public abstract void eval(String expression) throws ParserValidationException;
+    protected abstract void _parse(String expression) throws ParserException;
+    public abstract double eval() throws ParserEvalException;
+    public abstract double eval(String expression) throws ParserException;
 }
-
-// parse = [validate, _parse]
-// eval() = [_eval]
-// eval(str) = [parse, _eval]
