@@ -1,6 +1,6 @@
 package com.prysenko.MathParser.Parsers.Infix.Nodes.Function;
 
-import com.prysenko.MathParser.Exception.ParserEvalException;
+import com.prysenko.MathParser.Exception.ExpressionEvalException;
 import com.prysenko.MathParser.Parsers.Infix.Nodes.AbstractNode;
 
 import java.util.List;
@@ -25,7 +25,7 @@ public class CosFunctionNode extends FunctionNode {
     }
 
     @Override
-    protected double _eval() throws ParserEvalException {
+    protected double _eval() throws ExpressionEvalException {
         return Math.cos(args.get(0).eval());
     }
 }

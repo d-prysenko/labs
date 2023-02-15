@@ -1,6 +1,6 @@
 package com.prysenko.MathParser.Parsers.Infix.Nodes;
 
-import com.prysenko.MathParser.Exception.ParserEvalException;
+import com.prysenko.MathParser.Exception.ExpressionEvalException;
 
 public class SignNode extends AbstractNode {
     public Type signType;
@@ -32,7 +32,7 @@ public class SignNode extends AbstractNode {
     }
 
     @Override
-    public double eval() throws ParserEvalException {
+    public double eval() throws ExpressionEvalException {
         switch (signType) {
             case Plus -> {
                 return left.eval() + right.eval();

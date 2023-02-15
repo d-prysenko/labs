@@ -1,35 +1,33 @@
 package com.prysenko.MathParser;
 
-import com.prysenko.MathParser.Exception.ParserEvalException;
 import com.prysenko.MathParser.Exception.ParserException;
 import com.prysenko.MathParser.Exception.ParserValidationException;
 import com.prysenko.MathParser.Validators.ExpressionValidator;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.prysenko.MathParser.Validators.FunctionValidator;
 
 public abstract class MathParser {
-    protected ExpressionValidator validator;
-    protected Map<String, Integer> symbolTable;
+    protected ExpressionValidator expressionValidator;
+    protected FunctionValidator functionValidator;
 
     public MathParser(ExpressionValidator validator) {
         // you must pass different validators for infix, prefix (and etc.) expressions
-        this.validator = validator;
-        this.symbolTable = new HashMap<>();
+        this.expressionValidator = validator;
+        this.functionValidator = new FunctionValidator();
     }
 
     public void validate(String expression) throws ParserValidationException
     {
-        validator.validate(expression);
+        expressionValidator.validate(expression);
     }
 
-    public void parse(String expression) throws ParserException {
+    public Expression parse(String expression) throws ParserException {
         validate(expression);
 
-        _parse(expression);
+        return _parse(expression);
     }
 
-    protected abstract void _parse(String expression) throws ParserException;
-    public abstract double eval() throws ParserEvalException;
-    public abstract double eval(String expression) throws ParserException;
+    protected abstract Expression _parse(String expression) throws ParserException;
+    public double eval(String expression) throws ParserException {
+        return parse(expression).eval();
+    }
 }

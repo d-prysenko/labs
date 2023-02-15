@@ -1,6 +1,6 @@
 package com.prysenko.MathParser.Parsers.Infix.Nodes.Function;
 
-import com.prysenko.MathParser.Exception.ParserEvalException;
+import com.prysenko.MathParser.Exception.ExpressionEvalException;
 import com.prysenko.MathParser.Parsers.Infix.Nodes.AbstractNode;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public class AbsFunctionNode extends FunctionNode {
     }
 
     @Override
-    protected double _eval() throws ParserEvalException {
+    protected double _eval() throws ExpressionEvalException {
         return Math.abs(args.get(0).eval());
     }
 }

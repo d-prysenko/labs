@@ -46,4 +46,8 @@ public final class FunctionManager {
     public int getFunctionArgsCount(String functionName) {
         return funcTable.get(functionName);
     }
+
+    public Set<String> getFunctionNames() {
+        return funcTable.keySet();
+    }
 }

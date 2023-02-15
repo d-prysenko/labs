@@ -1,84 +1,68 @@
 package com.prysenko.MathParser.Parsers.Infix;
 
 
-import com.prysenko.MathParser.Exception.ParserEvalException;
 import com.prysenko.MathParser.Exception.ParserException;
+import com.prysenko.MathParser.Expression;
+import com.prysenko.MathParser.ExpressionTree;
 import com.prysenko.MathParser.MathParser;
+import com.prysenko.MathParser.Misc.FunctionManager;
 import com.prysenko.MathParser.Misc.NestingLevelHelper;
 import com.prysenko.MathParser.Misc.RegexManager;
 import com.prysenko.MathParser.Misc.SymbolsManager;
-import com.prysenko.MathParser.Parsers.Infix.Nodes.AbstractNode;
+import com.prysenko.MathParser.Parsers.Infix.Nodes.*;
 import com.prysenko.MathParser.Parsers.Infix.Nodes.Function.FunctionFabric;
 import com.prysenko.MathParser.Parsers.Infix.Nodes.Function.FunctionNode;
-import com.prysenko.MathParser.Parsers.Infix.Nodes.SignNode;
-import com.prysenko.MathParser.Parsers.Infix.Nodes.TokenNode;
-import com.prysenko.MathParser.Parsers.Infix.Nodes.ValueNode;
-import com.prysenko.MathParser.Validators.FunctionValidator;
 import com.prysenko.MathParser.Validators.InfixExpressionValidator;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 
 public class InfixExpressionTreeParser extends MathParser {
-    protected AbstractNode root;
-    protected FunctionValidator functionValidator;
+    protected Map<String, VariableValue> symbolTable;
 
     public InfixExpressionTreeParser() {
         // not the best way to pass dependency, i guess
         super(new InfixExpressionValidator());
-        functionValidator = new FunctionValidator();
     }
 
     @Override
-    public double eval() throws ParserEvalException {
-        if (root == null) {
-            throw new ParserEvalException("Root node is null");
-        }
+    protected Expression _parse(String expression) throws ParserException {
+        symbolTable = new HashMap<>();
+        AbstractNode root = doParse(RegexManager.removeSpaces(expression));
 
-        // TODO: check that symbolTable is filled and set all values in tree
-
-        return root.eval();
+        return new ExpressionTree(root, symbolTable);
     }
 
-    @Override
-    public double eval(String expression) throws ParserException {
-        parse(expression);
-        return eval();
-    }
-
-    @Override
-    protected void _parse(String expression) throws ParserException {
-        root = _doParse(RegexManager.removeSpaces(expression));
-    }
-
-    private AbstractNode _doParse(String expression) throws ParserException {
+    private AbstractNode doParse(String expression) throws ParserException {
         AbstractNode node;
         expression = SymbolsManager.trimBrackets(expression);
 
         // binary +-
-        node = _getNodeForSigns(expression, SymbolsManager::isPlusMinus);
+        node = getSignNode(expression, SymbolsManager::isPlusMinus);
 
         if (node != null) {
             return node;
         }
 
         // */
-        node = _getNodeForSigns(expression, SymbolsManager::isMultDiv);
+        node = getSignNode(expression, SymbolsManager::isMultDiv);
 
         if (node != null) {
             return node;
         }
 
         // %
-        node = _getNodeForSigns(expression, SymbolsManager::isMod);
+        node = getSignNode(expression, SymbolsManager::isMod);
 
         if (node != null) {
             return node;
         }
 
         // ^
-        node = _getNodeForSigns(expression, SymbolsManager::isPow);
+        node = getSignNode(expression, SymbolsManager::isPow);
 
         if (node != null) {
             return node;
@@ -86,32 +70,28 @@ public class InfixExpressionTreeParser extends MathParser {
 
         // unary -
         if (expression.startsWith("-")) {
-            return new SignNode('-', new ValueNode(0), _doParse(expression.substring(1)));
+            return new SignNode('-', new ValueNode(0), doParse(expression.substring(1)));
         }
 
         // function
-        // is it a function?
-        node = _getFunctionNode(expression);
+        node = getFunctionNode(expression);
 
         if (node != null) {
             return node;
         }
 
         // variable
-        // starts with letter
-        if (Character.isLetter(expression.charAt(0))) {
-            if (!symbolTable.containsKey(expression)) {
-                symbolTable.put(expression, null);
-            }
+        node = getVarNode(expression);
 
-            return new TokenNode(expression);
+        if (node != null) {
+            return node;
         }
 
-        // value
+        // raw value
         return new ValueNode(Double.parseDouble(expression));
     }
 
-    private SignNode _getNodeForSigns(String expression, Predicate<Character> signPredicate) throws ParserException {
+    private SignNode getSignNode(String expression, Predicate<Character> signPredicate) throws ParserException {
         NestingLevelHelper nestingHelper = new NestingLevelHelper();
 
         for (int i = 0; i < expression.length(); i++) {
@@ -119,20 +99,20 @@ public class InfixExpressionTreeParser extends MathParser {
             nestingHelper.updateNestingLevel(c);
 
             if (signPredicate.test(c) && nestingHelper.getNestingLevel() == 0 && i != 0) {
-                // finally! we found +-*/^%
+                // finally! we found sign specified by signPredicate
 
                 String left = SymbolsManager.trimBrackets(expression.substring(0, i));
                 String right = SymbolsManager.trimBrackets(expression.substring(i + 1));
                 char sign = expression.charAt(i);
 
-                return new SignNode(sign, _doParse(left), _doParse(right));
+                return new SignNode(sign, doParse(left), doParse(right));
             }
         }
 
         return null;
     }
 
-    private FunctionNode _getFunctionNode(String expression) throws ParserException {
+    private FunctionNode getFunctionNode(String expression) throws ParserException {
         int openingBracketPos = expression.indexOf("(");
 
         if (openingBracketPos == -1) {
@@ -146,10 +126,10 @@ public class InfixExpressionTreeParser extends MathParser {
             return null;
         }
 
-        return FunctionFabric.create(functionName, _splitAndParseArgs(args));
+        return FunctionFabric.create(functionName, splitAndParseArgs(args));
     }
 
-    private List<AbstractNode> _splitAndParseArgs(String args) throws ParserException {
+    private List<AbstractNode> splitAndParseArgs(String args) throws ParserException {
         List<AbstractNode> res = new ArrayList<>();
 
         NestingLevelHelper nestingHelper = new NestingLevelHelper();
@@ -160,15 +140,41 @@ public class InfixExpressionTreeParser extends MathParser {
             nestingHelper.updateNestingLevel(c);
 
             if (nestingHelper.getNestingLevel() == 0 && c == ',') {
-                res.add(_doParse(args.substring(beginIndex, i)));
+                res.add(doParse(args.substring(beginIndex, i)));
 
                 beginIndex = i + 1;
             }
         }
 
-        res.add(_doParse(args.substring(beginIndex)));
+        res.add(doParse(args.substring(beginIndex)));
 
         return res;
+    }
+
+    private VarNode getVarNode(String expression) throws ParserException {
+        if (!Character.isLetter(expression.charAt(0))) {
+            return null;
+        }
+
+        if (FunctionManager.INSTANCE.hasFunction(expression)) {
+            throw new ParserException(expression + " is reserved name of a function. Use another name for variable.");
+        }
+
+        VariableValue var = addVarToSymbolTable(expression);
+
+        return new VarNode(var);
+    }
+
+    private VariableValue addVarToSymbolTable(String expression) {
+        VariableValue var = new VariableValue(expression);
+
+        if (!symbolTable.containsKey(expression)) {
+            symbolTable.put(expression, var);
+        } else {
+            var = symbolTable.get(expression);
+        }
+
+        return var;
     }
 
 }

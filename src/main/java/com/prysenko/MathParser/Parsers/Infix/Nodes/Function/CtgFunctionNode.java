@@ -1,6 +1,6 @@
 package com.prysenko.MathParser.Parsers.Infix.Nodes.Function;
 
-import com.prysenko.MathParser.Exception.ParserEvalException;
+import com.prysenko.MathParser.Exception.ExpressionEvalException;
 import com.prysenko.MathParser.Parsers.Infix.Nodes.AbstractNode;
 
 import java.util.List;
@@ -25,7 +25,7 @@ public class CtgFunctionNode extends FunctionNode {
     }
 
     @Override
-    protected double _eval() throws ParserEvalException {
+    protected double _eval() throws ExpressionEvalException {
         return 1.0 / Math.tan(args.get(0).eval());
     }
 }

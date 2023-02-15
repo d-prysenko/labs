@@ -1,6 +1,6 @@
 package com.prysenko.MathParser.Parsers.Infix.Nodes.Function;
 
-import com.prysenko.MathParser.Exception.ParserEvalException;
+import com.prysenko.MathParser.Exception.ExpressionEvalException;
 import com.prysenko.MathParser.Parsers.Infix.Nodes.AbstractNode;
 
 import java.util.List;
@@ -16,10 +16,10 @@ public abstract class FunctionNode extends AbstractNode {
 
     public abstract int getArgsCount();
 
-    protected abstract double _eval() throws ParserEvalException;
+    protected abstract double _eval() throws ExpressionEvalException;
 
     @Override
-    public final double eval() throws ParserEvalException {
+    public final double eval() throws ExpressionEvalException {
         if (_isArgsCountInvalid()) {
             _throwInvalidArgsCountException();
         }
@@ -41,7 +41,7 @@ public abstract class FunctionNode extends AbstractNode {
         return args.size() != getArgsCount();
     }
 
-    protected void _throwInvalidArgsCountException() throws ParserEvalException {
-        throw new ParserEvalException("Function '" + getName() + "' expects " + getArgsCount() + " argument(s), given " + args.size());
+    protected void _throwInvalidArgsCountException() throws ExpressionEvalException {
+        throw new ExpressionEvalException("Function '" + getName() + "' expects " + getArgsCount() + " argument(s), given " + args.size());
     }
 }

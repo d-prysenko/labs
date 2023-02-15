@@ -5,27 +5,27 @@ import com.prysenko.MathParser.Parsers.Infix.Nodes.AbstractNode;
 
 import java.util.List;
 
-public class PowFunctionNode extends FunctionNode {
-    public PowFunctionNode() {
+public class DegFunctionNode extends FunctionNode {
+    public DegFunctionNode() {
         super();
     }
 
-    public PowFunctionNode(List<AbstractNode> args) {
+    public DegFunctionNode(List<AbstractNode> args) {
         super(args);
     }
 
     @Override
     public String getName() {
-        return "pow";
+        return "deg";
     }
 
     @Override
     public int getArgsCount() {
-        return 2;
+        return 1;
     }
 
     @Override
     protected double _eval() throws ExpressionEvalException {
-        return Math.pow(args.get(0).eval(), args.get(1).eval());
+        return Math.toDegrees(args.get(0).eval());
     }
 }
